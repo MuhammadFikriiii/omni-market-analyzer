@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI Agents & Management
+AGENTS.md
+CLAUDE.md
+.gemini/
+.antigravity/
