@@ -46,10 +46,15 @@ export default function MonteCarloChart({
   const chartRef = useRef<IChartApi | null>(null);
   const { asset, assetType } = useStore();
 
+  const [mounted, setMounted] = useState(false);
   const [projYears, setProjYears] = useState<number>(1);
   const [projMonths, setProjMonths] = useState<number>(0);
   const [projDays, setProjDays] = useState<number>(0);
   const [variation, setVariation] = useState<number>(1);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const USD_IDR = 16200;
 
@@ -222,6 +227,8 @@ export default function MonteCarloChart({
     usd: val.toLocaleString(undefined, { maximumFractionDigits: 2 }),
     idr: (val * USD_IDR).toLocaleString('id-ID', { maximumFractionDigits: 0 })
   });
+
+  if (!mounted) return <div className="h-[400px] w-full bg-box-bg animate-pulse border-4 border-dark mt-8" />;
 
   return (
     <div className="neo-box p-6 mt-8 bg-box-bg">

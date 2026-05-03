@@ -1,7 +1,7 @@
 'use client';
 
 import { useStore } from '@/store/useStore';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 interface DCACalculatorProps {
   currentPrice: number;
@@ -11,8 +11,13 @@ interface DCACalculatorProps {
 
 export default function DCACalculator({ currentPrice, historicalAnnualReturn, dict }: DCACalculatorProps) {
   const { monthlyInvestment, investmentMonths, setMonthlyInvestment, setInvestmentMonths } = useStore();
+  const [mounted, setMounted] = useState(false);
   const [initialCapital, setInitialCapital] = useState<number>(0);
   const [targetMonth, setTargetMonth] = useState<number>(investmentMonths);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const projection = useMemo(() => {
     const r = historicalAnnualReturn / 12; // monthly return rate
@@ -34,6 +39,8 @@ export default function DCACalculator({ currentPrice, historicalAnnualReturn, di
       totalInvested
     };
   }, [initialCapital, monthlyInvestment, investmentMonths, historicalAnnualReturn, targetMonth]);
+
+  if (!mounted) return <div className="h-64 w-full bg-box-bg animate-pulse border-4 border-dark mb-8" />;
 
   return (
     <div className="neo-box p-6 bg-box-bg mb-8">

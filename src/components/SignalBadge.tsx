@@ -1,4 +1,6 @@
-'use interaction';
+'use client';
+
+import { useState, useEffect } from 'react';
 
 interface SignalBadgeProps {
   rsi: number;
@@ -9,6 +11,13 @@ interface SignalBadgeProps {
 }
 
 export default function SignalBadge({ rsi, macd, ema20, currentPrice, dict }: SignalBadgeProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <div className="neo-box p-4 h-32 bg-box-bg animate-pulse" />;
   let signal = 'HOLD';
   let colorClass = 'bg-secondary text-white';
   let reasoning = 'Pasar sedang dalam kondisi stabil (Sideways). Indikator belum menunjukkan momentum yang kuat untuk aksi beli atau jual.';
